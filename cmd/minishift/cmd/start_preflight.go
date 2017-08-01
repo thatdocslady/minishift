@@ -42,23 +42,23 @@ func preflightChecksBeforeStartingHost() {
 		preflightCheckSucceedsOrFails(
 			startFlags.SkipCheckXHyveDriver.Name,
 			checkXhyveDriver,
-			"Checking if 'xhyve' driver installed",
+			"Checking if xhyve driver is installed",
 			false, startFlags.WarnCheckXHyveDriver.Name,
-			"See install guide")
+			"See the 'Setting Up the Driver Plug-in' topic for more information")
 	case "kvm":
 		preflightCheckSucceedsOrFails(
 			startFlags.SkipCheckKVMDriver.Name,
 			checkKvmDriver,
-			"Checking if 'kvm' driver installed",
+			"Checking if KVM driver is installed",
 			false, startFlags.WarnCheckXHyveDriver.Name,
-			"See install guide")
+			"See the 'Setting Up the Driver Plug-in' topic for more information")
 	case "hyperv":
 		preflightCheckSucceedsOrFails(
 			startFlags.SkipCheckHyperVDriver.Name,
 			checkHypervDriver,
-			"Checking if 'hyperv' driver configured",
+			"Checking if Hyper-V driver is configured",
 			false, startFlags.WarnCheckHyperVDriver.Name,
-			"Hyper-V virtual switch not set")
+			"Hyper-V virtual switch is not set")
 	}
 }
 
@@ -66,9 +66,9 @@ func preflightChecksAfterStartingHost(driver drivers.Driver) {
 	preflightCheckSucceedsOrFailsWithDriver(
 		startFlags.SkipInstanceIP.Name,
 		checkInstanceIP, driver,
-		"Checking for IP",
+		"Checking for IP address",
 		false, startFlags.WarnInstanceIP.Name,
-		"Error determining IP")
+		"Error determining IP address")
 	/*
 		// This happens too late in the preflight, as provisioning needs an IP already
 			preflightCheckSucceedsOrFailsWithDriver(
@@ -81,27 +81,27 @@ func preflightChecksAfterStartingHost(driver drivers.Driver) {
 	preflightCheckSucceedsOrFailsWithDriver(
 		startFlags.SkipCheckNetworkPing.Name,
 		checkIPConnectivity, driver,
-		"Checking host reachable from VM",
+		"Checking if external host is reachable from the Minishift VM",
 		true, startFlags.WarnCheckNetworkPing.Name,
-		"Instance is unable to ping outside")
+		"VM is unable to ping external host")
 	preflightCheckSucceedsOrFailsWithDriver(
 		startFlags.SkipCheckNetworkHTTP.Name,
 		checkHttpConnectivity, driver,
-		"Checking HTTP connectivity from VM",
+		"Checking HTTP connectivity from the VM",
 		true, startFlags.WarnCheckNetworkHTTP.Name,
-		"Instance is unable to retieve from address")
+		"VM cannot connect to external URL with HTTP")
 	preflightCheckSucceedsOrFailsWithDriver(
 		startFlags.SkipCheckStorageMount.Name,
 		checkStorageMounted, driver,
-		"Checking storage disk mounted",
+		"Checking if persisten storage volume is mounted",
 		false, startFlags.WarnCheckStorageMount.Name,
-		"Instance did not mount persistent storage volume")
+		"Persistent volume storage is not mounted")
 	preflightCheckSucceedsOrFailsWithDriver(
 		startFlags.SkipCheckStorageUsage.Name,
 		checkStorageUsage, driver,
-		"Checking storage disk usage",
+		"Checking available disk space",
 		false, startFlags.WarnCheckStorageUsage.Name,
-		"Instance does not have enough storage available")
+		"Insufficient disk space on the persistent storage volume")
 }
 
 type preflightCheckFunc func() bool
